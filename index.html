@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ZoomUP</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+  </head>
+  <body>
+
+        <script>
+      // You can also require other files to run in this process
+      require('./preload.js')
+      require('./renderer.js')
+BrowserWindow = require('electron')
+      const electron = require('electron')
+const path = require('path')
+const BrowserWindow = electron.remote.BrowserWindow;
+
+function askerisk(){
+          const promptz = require('electron-prompt');   
+      var promptq =   promptz({
+    title: "Enter ID",
+    label: "ID",
+    value: "000 000 0000",
+    inputAttrs: {
+        type: 'text'
+    },
+    type: 'input'
+})
+.then((r) => {
+    if(r === null) {
+        console.log('user cancel');
+    } else {
+          var id =  r;
+               promptz({
+    title: "Enter Password",
+    label: "PASSWORD",
+    value: "0000",
+    inputAttrs: {
+        type: 'password'
+    },
+    type: 'input'
+})
+.then((r) => {
+    if(r === null) {
+        console.log('user cancel');
+    } else {
+          var pw =  r;
+              var tp = "Zoom";
+              var xxx = '{"Meeting ID":"'+id+'", "Meeting Password":"'+pw+'", "Meeting client":"'+tp+'"}]';
+              newpw(xxx)
+       
+    }
+})
+
+.catch(console.error);
+    }
+    
+});
+}
+      function newpw(jval){
+
+    
+    
+        fs = require('fs');
+fs.readFile('test.json', 'utf8', function (error, data) {
+    if (error) return "[]";
+    var traworlds = data.toString();
+    var deletepersona = traworlds.replace("]", ",");
+     
+    var jsonn = deletepersona + jval;
+fs.writeFile('./test.json', jsonn, function (err,data) {
+  if (err) return console.log(err);
+  fs.readFile('./test.json', 'utf8', function (error, data) {
+    if (error) throw error;
+    var traworlds = data.toString();
+    console.log(traworlds);
+    var traworld = JSON.parse(traworlds);
+    
+var count = 0;
+//var count = persons.length;          // wont work
+for ( property in traworld )          // should return 2
+{
+   if(traworld.hasOwnProperty(property))
+   {
+      count++;
+   }
+}
+document.getElementById('meetingcount').innerHTML = count;
+var list = traworld;
+document.getElementById('table').innerHTML = ' ';
+constructTable('#table');
+function constructTable(selector) { 
+              
+            // Getting the all column names 
+            var cols = Headers(list, selector);   
+   
+            // Traversing the JSON data 
+            for (var i = 0; i < list.length; i++) { 
+                var row = $('<tr class="bg-white border-4 border-gray-200 h-12"/>');    
+                for (var colIndex = 0; colIndex < cols.length; colIndex++) 
+                { 
+                    var val = list[i][cols[colIndex]]; 
+                      
+                    // If there is any key, which is matching 
+                    // with the column name 
+                    if (val == null) val = "";   
+                        row.append($('<td class="bg-white border-4 border-gray-200 h-12"/>').html(val)); 
+                } 
+                  
+                // Adding each row to the table 
+                $(selector).append(row); 
+            } 
+        } 
+          
+        function Headers(list, selector) { 
+            var columns = []; 
+            var header = $('<tr class="bg-gray-800 text-white h-12"/>'); 
+              
+            for (var i = 0; i < list.length; i++) { 
+                var row = list[i]; 
+                  
+                for (var k in row) { 
+                    if ($.inArray(k, columns) == -1) { 
+                        columns.push(k); 
+                          
+                        // Creating the header 
+                        header.append($('<th/>').html(k)); 
+                    } 
+                } 
+            } 
+              
+            // Appending the header to the table 
+            $(selector).append(header); 
+                return columns; 
+        }        
+});
+
+});
+})
+
+      }
+      function zoomcliopen(){
+        window.open('https://zoom.us/j/');
+      }
+            function gmeetcliopen(){
+        window.open('https://meet.google.com/');
+      }
+    </script>
+<div class="h-screen w-full flex overflow-hidden">
+	<nav class="flex flex-col bg-gray-200 dark:bg-gray-900 w-64 px-12 pt-4 pb-6">
+		<!-- SideNavBar -->
+
+		<div class="flex flex-row border-b items-center justify-between pb-2">
+
+<div class="mb-2 sm:mb-0 flex flex-row
+  ">
+    <div class="h-10 w-10 self-center mr-2">
+      <img class="h-10 w-10 self-center" src="https://i.ibb.co/W0dPhG2/ZoomUP.png">
+    </div>
+    <div>
+      <p class="text-2xl no-underline text-grey-darkest hover:text-blue-dark font-sans font-bold">ZoomUP</p>
+    </div>
+  </div>
+		</div>
+
+		<div class="mt-8">
+			<!-- User info -->
+			<h2
+				class="mt-4 text-xl dark:text-gray-300 font-extrabold capitalize" id="welcome-title">
+				
+			</h2>
+				<span class="font-semibold text-blue-600 dark:text-blue-300" id="zoomup-plan">
+					
+				</span>
+
+		</div>
+
+		<button
+    onclick="askerisk()"
+			class="mt-8 flex items-center justify-between py-3 px-2 text-white
+			dark:text-gray-200 bg-blue-400 dark:bg-blue-500 rounded-lg shadow">
+			<!-- Action -->
+			<span  id="newpw-generator"></span>
+			<svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+				<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+			</svg>
+		</button>
+
+		<ul class="mt-2 text-gray-600">
+		
+			<li
+				class="mt-8 shadow py-2 bg-white dark:bg-gray-200 rounded-lg
+				-ml-4">
+				<a href="#" class="flex pl-4">
+					<svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
+						<path
+							d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0
+							014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4
+							8-4z"></path>
+					</svg>
+					<span class="ml-2 capitalize font-medium" id="my-account"></span>
+				</a>
+			</li>
+		</ul>
+
+	</nav>
+	<main
+		class="flex-1 flex flex-col bg-gray-100 dark:bg-gray-700 transition
+		duration-500 ease-in-out overflow-y-auto">
+		<div class="mx-10 my-2">
+			<nav
+				class="flex flex-row justify-between border-b
+				dark:border-gray-600 dark:text-gray-400 transition duration-500
+				ease-in-out">
+				<div class="flex">
+					<!-- Top NavBar -->
+
+					<a
+						href="#"
+						class="py-2 block text-blue-500 border-blue-500
+						dark:text-blue-200 dark:border-blue-200
+						focus:outline-none border-b-2 font-medium capitalize
+						transition duration-500 ease-in-out">
+						Zoom
+					</a>
+					<a
+						class="py-2 block 
+						focus:outline-none border-b-2 font-medium capitalize
+						transition duration-500 ease-in-out" style="margin:10px;">
+						 
+					</a>
+				<!--	<a
+						href="users-dashboard/"
+						class="py-2 block text-green-500 border-green-500
+						dark:text-green-200 dark:border-green-200
+						focus:outline-none border-b-2 font-medium capitalize
+						transition duration-500 ease-in-out">
+						Google Meet
+					</a>-->
+				</div>
+
+				<div class="flex items-center select-none">
+
+<button onclick="zoomcliopen()"  id="zoomcli" class="border border-indigo-500 text-indigo-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-indigo-600 focus:outline-none focus:shadow-outline">
+		  
+		</button>
+<button onclick="gmeetcliopen()"  id="meetcli" class="border border-green-500 text-green-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-green-600 focus:outline-none focus:shadow-outline">
+		  
+		</button>
+
+				</div>
+
+			</nav>
+			<h2  id="pw-list-title" class="my-4 text-4xl font-semibold dark:text-gray-400">
+				
+			</h2>
+			<div
+				class="pb-2 flex items-center justify-between text-gray-600
+				dark:text-gray-400 border-b dark:border-gray-600">
+				<!-- Header -->
+
+				<div>
+					<span>
+						<span id="meetingcount" class="text-blue-500 dark:text-green-200"></span><span  id="roomcount"></span>
+					</span>
+				</div>
+			
+
+			</div>
+
+	   <table class="min-w-full table-auto"
+            id="table" border="1"> 
+    </table> 
+
+			
+
+			
+
+	
+
+	</main>
+
+</div>
+  <script>
+   if (navigator.language.indexOf("ko") === 0){
+  document.getElementById("welcome-title").innerHTML = "환영합니다."
+document.getElementById("zoomup-plan").innerHTML = "ZoomUP Free"
+document.getElementById("newpw-generator").innerHTML = "새로운 비밀번호"
+document.getElementById("my-account").innerHTML = "내 계정"
+document.getElementById("zoomcli").innerHTML = "Zoom 회의"
+document.getElementById("meetcli").innerHTML = "Google Meet 회의"
+document.getElementById("pw-list-title").innerHTML = "비밀번호 리스트"
+document.getElementById("roomcount").innerHTML = "개의 회의실"
+}
+  else if (navigator.language.indexOf("en") === 0){
+  document.getElementById("welcome-title").innerHTML = "Welcome! 👋"
+document.getElementById("zoomup-plan").innerHTML = "💸 ZoomUP Free Plan"
+document.getElementById("newpw-generator").innerHTML = "New Password"
+document.getElementById("my-account").innerHTML = "My Account"
+document.getElementById("zoomcli").innerHTML = "Open Zoom Meeting Client"
+document.getElementById("meetcli").innerHTML = "Open Google Meet Client"
+document.getElementById("pw-list-title").innerHTML = "My Passwords"
+document.getElementById("roomcount").innerHTML = " Room(s) saved."
+}
+  else if (navigator.language.indexOf("jp") === 0||navigator.language.indexOf("ja")===0){
+  document.getElementById("welcome-title").innerHTML = "ようこそ！ 👋"
+document.getElementById("zoomup-plan").innerHTML = "💸 ZoomUP 無料版"
+document.getElementById("newpw-generator").innerHTML = "新しいパスワード"
+document.getElementById("my-account").innerHTML = "マイアカウント"
+document.getElementById("zoomcli").innerHTML = "Zoom 会議"
+document.getElementById("meetcli").innerHTML = "Google Meet 会議"
+document.getElementById("pw-list-title").innerHTML = "パスワードリスト"
+document.getElementById("roomcount").innerHTML = " 部屋節約できました。"
+}
+  else if (navigator.language.indexOf("zh") === 0||navigator.language.indexOf("cn")===0){
+  document.getElementById("welcome-title").innerHTML = "欢迎！"
+document.getElementById("zoomup-plan").innerHTML = "ZoomUP 免费版"
+document.getElementById("newpw-generator").innerHTML = "新密码"
+document.getElementById("my-account").innerHTML = "我的帐户"
+document.getElementById("zoomcli").innerHTML = "Zoom 会议"
+document.getElementById("meetcli").innerHTML = "Google Meet 会议"
+document.getElementById("pw-list-title").innerHTML = "密码清单"
+document.getElementById("roomcount").innerHTML = " 房间已保存。"
+}
+  else{
+  document.getElementById("welcome-title").innerHTML = "Welcome 👋"
+document.getElementById("zoomup-plan").innerHTML = "💸 ZoomUP Free Plan"
+document.getElementById("newpw-generator").innerHTML = "New Password"
+document.getElementById("my-account").innerHTML = "My Account"
+document.getElementById("zoomcli").innerHTML = "Open Zoom Meeting Client"
+document.getElementById("meetcli").innerHTML = "Open Google Meet Client"
+document.getElementById("pw-list-title").innerHTML = "My Passwords"
+document.getElementById("roomcount").innerHTML = " Room(s) saved."
+}
+</script>
+  </body>
+</html>

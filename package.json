@@ -1,0 +1,19 @@
+{
+  "name": "ZoomUP",
+  "productName": "ZoomUP",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "SomeoneInEarth",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron-prompt": "*",
+    "jquery": "*"
+  },
+  "devDependencies": {
+    "electron": "^11.0.0-beta.20"
+  }
+}
